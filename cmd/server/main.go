@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/signal"
 	"time"
+	"wangzheng/brain/cmd/server/api"
 )
 
 func main() {
@@ -17,7 +18,7 @@ func main() {
 		log.Printf("endpoint %v %v %v %v\n", httpMethod, absolutePath, handlerName, nuHandlers)
 	}
 
-	initRouter(r)
+	api.InitRouter(r)
 
 	srv := &http.Server{
 		Handler: r,

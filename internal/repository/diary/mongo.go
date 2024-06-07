@@ -1,4 +1,4 @@
-package model
+package diary
 
 import (
 	"context"
@@ -12,22 +12,22 @@ func GetMongoURI() string {
 	return "mongodb://localhost:27017"
 }
 
-// MongoDBDiaryRepository implements DiaryRepository using MongoDB
+// MongoDBDiaryRepository implements Repository using MongoDB
 type MongoDBDiaryRepository struct {
 	db *mongo.Database
 }
 
-func NewMongoDBDiaryRepository(db *mongo.Database) *MongoDBDiaryRepository {
+func newMongoDBDiaryRepository(db *mongo.Database) *MongoDBDiaryRepository {
 	return &MongoDBDiaryRepository{db: db}
 }
 
-func (r *MongoDBDiaryRepository) Save(entry entity.DiaryEntry) error {
+func (r *MongoDBDiaryRepository) Save(entry entity.Diary) error {
 	_, err := r.db.Collection("diaries").InsertOne(context.TODO(), entry)
 	return err
 }
 
-func (r *MongoDBDiaryRepository) GetAll(userID string) ([]entity.DiaryEntry, error) {
-	var entries []entity.DiaryEntry
+func (r *MongoDBDiaryRepository) GetAll(userID string) ([]entity.Diary, error) {
+	var entries []entity.Diary
 	cursor, err := r.db.Collection("diaries").Find(context.TODO(), bson.M{"user_id": userID})
 	if err != nil {
 		return nil, err
@@ -36,8 +36,8 @@ func (r *MongoDBDiaryRepository) GetAll(userID string) ([]entity.DiaryEntry, err
 	return entries, err
 }
 
-func (r *MongoDBDiaryRepository) Get(id string) (*entity.DiaryEntry, error) {
-	var entry entity.DiaryEntry
+func (r *MongoDBDiaryRepository) Get(id string) (*entity.Diary, error) {
+	var entry entity.Diary
 	err := r.db.Collection("diaries").FindOne(context.TODO(), bson.M{"_id": id}).Decode(&entry)
 	if err != nil {
 		return nil, err
@@ -45,7 +45,7 @@ func (r *MongoDBDiaryRepository) Get(id string) (*entity.DiaryEntry, error) {
 	return &entry, nil
 }
 
-func (r *MongoDBDiaryRepository) Update(entry entity.DiaryEntry) error {
+func (r *MongoDBDiaryRepository) Update(entry entity.Diary) error {
 	_, err := r.db.Collection("diaries").UpdateOne(context.TODO(), bson.M{"_id": entry.ID}, bson.M{"$set": entry})
 	return err
 }
