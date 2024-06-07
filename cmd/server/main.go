@@ -17,6 +17,8 @@ func main() {
 		log.Printf("endpoint %v %v %v %v\n", httpMethod, absolutePath, handlerName, nuHandlers)
 	}
 
+	initRouter(r)
+
 	srv := &http.Server{
 		Handler: r,
 		Addr:    ":8000",
@@ -68,4 +70,17 @@ func main() {
 		log.Fatal("Server Shutdown:", err)
 	}
 	log.Println("Server exiting")
+}
+
+func initRouter(r *gin.Engine) {
+	// api 路由
+	api := r.Group("/api")
+	{
+		api.GET("/ping", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "pong",
+				"status":  "success",
+			})
+		})
+	}
 }
