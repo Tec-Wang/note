@@ -59,16 +59,19 @@ func main() {
 		}
 	}()
 
-	// 等待中断信号以优雅地关闭服务器（设置 5 秒的超时时间）
-	quit := make(chan os.Signal)
+	// Wait for an interrupt signal to gracefully shutdown the server (with a 5-second timeout)
+	quit := make(chan os.Signal, 1) // Adding buffer size 1 to the channel
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-	log.Println("Shutdown Server ...")
+
+	log.Println("Shutting down the server...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
+
 	if err := srv.Shutdown(ctx); err != nil {
 		log.Fatal("Server Shutdown:", err)
 	}
-	log.Println("Server exiting")
+
+	log.Println("Server has shut down")
 }
