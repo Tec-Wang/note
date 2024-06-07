@@ -17,18 +17,6 @@ func main() {
 		log.Printf("endpoint %v %v %v %v\n", httpMethod, absolutePath, handlerName, nuHandlers)
 	}
 
-	r.POST("/foo", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "foo")
-	})
-
-	r.GET("/bar", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "bar")
-	})
-
-	r.GET("/status", func(c *gin.Context) {
-		c.JSON(http.StatusOK, "ok")
-	})
-
 	srv := &http.Server{
 		Handler: r,
 		Addr:    ":8000",
