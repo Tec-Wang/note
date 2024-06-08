@@ -1,14 +1,21 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 // Diary represents a single diary entry
 type Diary struct {
 	gorm.Model
+	ID      int64        ``
+	UserID  uint         `json:"userID" gorm:"user_id"`
+	MongoID string       `json:"mongoID"  gorm:"mongo_id"`
+	Content DiaryContent `json:"content" gorm:"-"`
+}
 
-	MongoID string `bson:"_id" gorm:"m_id" json:"-"`
-	UserID  string `bson:"user_id" gorm:"user_id" json:"userID"`
-	Content string `bson:"content" gorm:"content" json:"content"`
+func (d *Diary) TableName() string {
+	return "diaries"
+}
+
+type DiaryContent struct {
+	MongoID string `json:"_id" bson:"_id,omitempty"`
+	Content string `json:"content" bson:"content,omitempty"`
 }
