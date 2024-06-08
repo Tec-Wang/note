@@ -72,16 +72,3 @@ func main() {
 	}
 	log.Println("Server exiting")
 }
-
-func initRouter(r *gin.Engine) {
-	// api 路由
-	api := r.Group("/api")
-	{
-		api.GET("/ping", func(c *gin.Context) {
-			c.JSON(200, gin.H{
-				"message": "pong",
-				"status":  "success",
-			})
-		})
-	}
-}
