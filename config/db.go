@@ -35,12 +35,12 @@ func MongoConfig() *MongoDBConfig {
 
 type MongoDBConfig struct {
 	Host     string `json:"host"`
-	Port     string `json:"`
+	Port     string `json:"port"`
 	User     string `json:"user"`
 	Password string `json:"password"`
 	Database string `json:"database"`
 }
 
 func (c *MongoDBConfig) ConnectionString() string {
-	return "mongodb://" + c.User + ":" + c.Password + "@" + c.Host + ":" + c.Port + "/" + c.Database
+	return "mongodb://" + c.User + ":" + c.Password + "@" + c.Host + ":" + c.Port + "/" + c.Database + "?authSource=admin"
 }
