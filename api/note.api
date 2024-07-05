@@ -1,0 +1,33 @@
+syntax = "v1"
+
+info (
+	title:  "note api service"
+	desc:   ""
+	author: "wangzheng"
+	email:  "wangzheng4j@qq.com"
+)
+
+type ID {
+	ID string
+}
+
+type (
+	Creator {
+		ID    int64
+		Name  string
+		Email string
+	}
+	NoteResp {
+		ID      int64
+		Title   string
+		Content string
+		FileID  int64
+		Creator Creator `json:"creator"`
+	}
+)
+
+service note-api {
+	@handler GetNote
+	get /notes/id/:userId (ID) returns (NoteResp)
+}
+
