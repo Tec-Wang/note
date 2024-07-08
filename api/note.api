@@ -15,26 +15,26 @@ type id {
 
 // note相关
 type (
-	noteUploadRequest {
-		fileContent []byte // 文件内容
-		fileName    string // 文件名
-		timestamp   int64 // 时间戳
-		noteID      int64 // 关联的笔记文件ID
+	NoteUploadRequest {
+		FileContent []byte `form:"fileContent"` // 文件内容
+		FileName    string `form:"fileName"` // 文件名
+		Timestamp   int64  `form:"timestamp"` // 时间戳
+		NoteID      int64  `form:"noteId"` // 关联的笔记文件ID
 	}
-	noteUploadResponse {
+	NoteUploadResponse {
 		Base
-		Data noteUploadResponseData `json:"data"`
+		Data NoteUploadResponseData `json:"data"`
 	}
-	noteUploadResponseData {
-		id int64
+	NoteUploadResponseData {
+		ID int64
 	}
-	note {
-		id        string `json:"id"`
-		content   []byte `json:"content"`
-		createdAt string `json:"createdAt"`
-		updatedAt string `json:"updatedAt"`
+	Note {
+		ID        string `json:"id"`
+		Content   []byte `json:"content"`
+		CreatedAt string `json:"createdAt"`
+		UpdatedAt string `json:"updatedAt"`
 	}
-	noteContentResponse {
+	NoteContentResponse {
 		Content   []byte `json:"content"`
 		UpdatedAt string `json:"updatedAt"`
 	}
@@ -43,14 +43,14 @@ type (
 service note-api {
 	@doc "上传文件"
 	@handler uploadNote
-	post /note/upload (noteUploadRequest) returns (noteUploadResponse)
+	post /note/upload (NoteUploadRequest) returns (NoteUploadResponse)
 
 	@doc "获取文件内容"
 	@handler getNoteContent
-	get /note/content (id) returns (noteContentResponse)
+	get /note/content (id) returns (NoteContentResponse)
 
 	@doc "保存文件内容"
 	@handler saveNoteContent
-	put /note/content (noteUploadRequest) returns (Base)
+	put /note/content (NoteUploadRequest) returns (Base)
 }
 

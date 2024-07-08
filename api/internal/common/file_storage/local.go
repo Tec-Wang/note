@@ -3,14 +3,14 @@ package file_storage
 import "os"
 
 type LocalFileStorageService struct {
-	config FileStorageServiceConfig
+	config LocalStorageServiceConfig
 }
 
-type FileStorageServiceConfig struct {
-	RootDirectory string
+type LocalStorageServiceConfig struct {
+	RootDirectory string `json:"RootDirectory"`
 }
 
-func NewLocalFileStorageService(c FileStorageServiceConfig) *LocalFileStorageService {
+func NewLocalFileStorageService(c LocalStorageServiceConfig) *LocalFileStorageService {
 	return &LocalFileStorageService{config: c}
 }
 

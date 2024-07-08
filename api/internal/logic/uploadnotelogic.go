@@ -25,7 +25,6 @@ func NewUploadNoteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 }
 
 func (l *UploadNoteLogic) UploadNote(req *types.NoteUploadRequest) (resp *types.NoteUploadResponse, err error) {
-	// todo: add your logic here and delete this line
-
-	return
+	err = l.svcCtx.FileStorage.UploadFile("测试.txt", req.FileContent)
+	return nil, err
 }

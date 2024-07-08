@@ -6,12 +6,8 @@ type Base struct {
 	Msg  string `json:"msg"`
 }
 
-type Id struct {
-	ID int64 `json:"id"`
-}
-
 type Note struct {
-	Id        string `json:"id"`
+	ID        string `json:"id"`
 	Content   []byte `json:"content"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
@@ -23,17 +19,21 @@ type NoteContentResponse struct {
 }
 
 type NoteUploadRequest struct {
-	FileContent []byte // 文件内容  // 文件内容
-	FileName    string // 文件名
-	Timestamp   int64  // 时间戳
-	NoteID      int64  // 关联的笔记文件ID
+	FileContent []byte `form:"fileContent"` // 文件内容
+	FileName    string `form:"fileName"`    // 文件名
+	Timestamp   int64  `form:"timestamp"`   // 时间戳
+	NoteID      int64  `form:"noteId"`      // 关联的笔记文件ID
 }
 
 type NoteUploadResponse struct {
 	Base
-	Data noteUploadResponseData `json:"data"`
+	Data NoteUploadResponseData `json:"data"`
 }
 
 type NoteUploadResponseData struct {
-	Id int64
+	ID int64
+}
+
+type Id struct {
+	ID int64 `json:"id"`
 }
