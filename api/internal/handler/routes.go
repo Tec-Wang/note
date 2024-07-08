@@ -13,9 +13,22 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 获取文件内容
 				Method:  http.MethodGet,
-				Path:    "/notes/id/:userId",
-				Handler: GetNoteHandler(serverCtx),
+				Path:    "/note/content",
+				Handler: getNoteContentHandler(serverCtx),
+			},
+			{
+				// 保存文件内容
+				Method:  http.MethodPut,
+				Path:    "/note/content",
+				Handler: saveNoteContentHandler(serverCtx),
+			},
+			{
+				// 上传文件
+				Method:  http.MethodPost,
+				Path:    "/note/upload",
+				Handler: uploadNoteHandler(serverCtx),
 			},
 		},
 	)

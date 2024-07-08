@@ -9,16 +9,17 @@ import (
 	"wangzheng/brain/api/internal/types"
 )
 
-func GetNoteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 保存文件内容
+func saveNoteContentHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.ID
+		var req types.NoteUploadRequest
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := logic.NewGetNoteLogic(r.Context(), svcCtx)
-		resp, err := l.GetNote(&req)
+		l := logic.NewSaveNoteContentLogic(r.Context(), svcCtx)
+		resp, err := l.SaveNoteContent(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

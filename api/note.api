@@ -1,5 +1,7 @@
 syntax = "v1"
 
+import "base.api"
+
 info (
 	title:  "note api service"
 	desc:   ""
@@ -7,27 +9,48 @@ info (
 	email:  "wangzheng4j@qq.com"
 )
 
-type ID {
-	ID int64
+type id {
+	ID int64 `json:"id"`
 }
 
+// note相关
 type (
-	Creator {
-		ID    int64
-		Name  string
-		Email string
+	noteUploadRequest {
+		fileContent []byte // 文件内容
+		fileName    string // 文件名
+		timestamp   int64 // 时间戳
+		noteID      int64 // 关联的笔记文件ID
 	}
-	NoteResp {
-		ID      int64
-		Title   string
-		Content string
-		FileID  int64
-		Creator Creator `json:"creator"`
+	noteUploadResponse {
+		Base
+		Data noteUploadResponseData `json:"data"`
+	}
+	noteUploadResponseData {
+		id int64
+	}
+	note {
+		id        string `json:"id"`
+		content   []byte `json:"content"`
+		createdAt string `json:"createdAt"`
+		updatedAt string `json:"updatedAt"`
+	}
+	noteContentResponse {
+		Content   []byte `json:"content"`
+		UpdatedAt string `json:"updatedAt"`
 	}
 )
 
 service note-api {
-	@handler GetNote
-	get /notes/id/:userId (ID) returns (NoteResp)
+	@doc "上传文件"
+	@handler uploadNote
+	post /note/upload (noteUploadRequest) returns (noteUploadResponse)
+
+	@doc "获取文件内容"
+	@handler getNoteContent
+	get /note/content (id) returns (noteContentResponse)
+
+	@doc "保存文件内容"
+	@handler saveNoteContent
+	put /note/content (noteUploadRequest) returns (Base)
 }
 
