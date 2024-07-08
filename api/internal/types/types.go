@@ -8,7 +8,7 @@ type Creator struct {
 }
 
 type ID struct {
-	ID string
+	ID int64
 }
 
 type NoteResp struct {

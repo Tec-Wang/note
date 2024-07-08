@@ -8,7 +8,7 @@ info (
 )
 
 type ID {
-	ID string
+	ID int64
 }
 
 type (
