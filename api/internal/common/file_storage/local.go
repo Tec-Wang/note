@@ -1,22 +1,39 @@
 package file_storage
 
-import "os"
+import (
+	"io"
+	"os"
+	"wangzheng/brain/api/internal/config"
+)
 
 type LocalFileStorageService struct {
-	config LocalStorageServiceConfig
+	config config.LocalStorageServiceConfig
 }
 
-type LocalStorageServiceConfig struct {
-	RootDirectory string `json:"RootDirectory"`
-}
+func NewLocalFileStorageService(c config.LocalStorageServiceConfig) *LocalFileStorageService {
+	if c.RootDirectory == "" {
+		c.RootDirectory = "./"
+	}
 
-func NewLocalFileStorageService(c LocalStorageServiceConfig) *LocalFileStorageService {
+	// create root directory if not exists
+	if _, err := os.Stat(c.RootDirectory); os.IsNotExist(err) {
+		_ = os.Mkdir(c.RootDirectory, os.ModePerm)
+	}
 	return &LocalFileStorageService{config: c}
 }
 
-func (s *LocalFileStorageService) UploadFile(fileName string, fileContent []byte) error {
-	filePath := s.config.RootDirectory + "/" + fileName
-	return os.WriteFile(filePath, fileContent, 0644)
+func (s *LocalFileStorageService) UploadFile(fileName string, fileContent io.Reader) error {
+	file, err := os.Create(s.config.GetPath(fileName))
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+	_, err = io.Copy(file, fileContent)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (s *LocalFileStorageService) GetFileContent(fileName string) ([]byte, error) {

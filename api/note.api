@@ -16,7 +16,7 @@ type id {
 // note相关
 type (
 	NoteUploadRequest {
-		FileContent []byte `form:"fileContent"` // 文件内容
+		FileContent string `form:"fileContent"` // 文件内容
 		FileName    string `form:"fileName"` // 文件名
 		Timestamp   int64  `form:"timestamp"` // 时间戳
 		NoteID      int64  `form:"noteId"` // 关联的笔记文件ID
