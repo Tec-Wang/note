@@ -1,0 +1,19 @@
+Name: note-mq
+Host: 0.0.0.0
+Port: 3001
+Mode: dev
+
+Redis:
+  Host: redis:6379
+  Type: node
+  Pass: G62m50oigInC30sf
+
+EmailSender:
+  Name: EmailSender
+  Brokers:
+    - kafka:9092
+  Group: email-sender-group
+  Topic: email-sender-topic
+  Offset: first
+  Consumers: 1
+  Processors: 1
