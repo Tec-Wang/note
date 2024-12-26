@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	"github.com/zeromicro/go-zero/core/conf"
-	"github.com/zeromicro/go-zero/core/service"
 	"wangzheng/brain/mq/internal/config"
 	"wangzheng/brain/mq/internal/listen"
+
+	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/service"
 )
 
 var configFile = flag.String("f", "mq/etc/note.yaml", "Specify the config file")

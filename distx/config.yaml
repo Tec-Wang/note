@@ -1,0 +1,6 @@
+database:
+  mysql:
+    db1_dsn: "root:@tcp(localhost:3306)/db1"
+    db2_dsn: "root:@tcp(localhost:3306)/db2"
+
+
