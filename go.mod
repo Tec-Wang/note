@@ -6,14 +6,17 @@ toolchain go1.22.3
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/go-sql-driver/mysql v1.8.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/zeromicro/go-queue v1.2.1
 	github.com/zeromicro/go-zero v1.6.6
 	google.golang.org/grpc v1.67.1
-	google.golang.org/grpc/examples v0.0.0-20241224124116-724f450f77a0
+	google.golang.org/protobuf v1.35.2
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
+	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
@@ -74,7 +77,5 @@ require (
 	golang.org/x/text v0.21.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241202173237-19429a94021a // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241202173237-19429a94021a // indirect
-	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

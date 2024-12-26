@@ -8,6 +8,7 @@ import (
 	"wangzheng/brain/distx/config"
 	"wangzheng/brain/distx/proto"
 
+	_ "github.com/go-sql-driver/mysql"
 	"google.golang.org/grpc"
 )
 
@@ -29,8 +30,9 @@ func (s *server) Hello(ctx context.Context, in *proto.HelloRequest) (*proto.Hell
 
 func (s *server) Insert(ctx context.Context, in *proto.InsertRequest) (*proto.InsertResponse, error) {
 	config := config.NewConfig()
-	dsn := config.Mysql.DB2DSN
+	dsn := config.DataBase.Mysql.DB2DSN
 	// 连接到数据库
+	// Bug 修复：添加缺失的数据库驱动导入
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatalf("failed to connect to database: %v", err)
@@ -59,6 +61,8 @@ func main() {
 	}
 	s := grpc.NewServer()
 	proto.RegisterHelloServer(s, &server{})
+	proto.RegisterInsertServer(s, &server{})
+
 	log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)

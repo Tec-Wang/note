@@ -6,7 +6,7 @@ import (
 )
 
 func TestRootRequest(t *testing.T) {
-	res, err := http.Get("localhost:8080")
+	res, err := http.Get("http://localhost:8080")
 
 	if err != nil {
 		t.Fatal(err)

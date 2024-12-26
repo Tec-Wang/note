@@ -148,8 +148,8 @@ type InsertServer interface {
 type UnimplementedInsertServer struct {
 }
 
-func (UnimplementedInsertServer) Insert() (*InsertResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Insert not icontext.Context, *InsertRequestmplemented")
+func (UnimplementedInsertServer) Insert(context.Context, *InsertRequest) (*InsertResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Insert not implemented")
 }
 func (UnimplementedInsertServer) mustEmbedUnimplementedInsertServer() {}
 

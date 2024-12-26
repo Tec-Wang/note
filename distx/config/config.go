@@ -13,6 +13,10 @@ import (
 const yamlConfigPath = "config.yaml"
 
 type Config struct {
+	DataBase DataBase `yaml:"database"`
+}
+
+type DataBase struct {
 	Mysql MysqlConfig `yaml:"mysql"`
 }
 
