@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"fmt"
 	"io"
 
 	"wangzheng/brain/api/internal/svc"
@@ -28,8 +29,32 @@ func NewUploadNoteLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Upload
 }
 
 func (l *UploadNoteLogic) UploadNote(req *types.NoteUploadRequest) (resp *types.NoteUploadResponse, err error) {
+	// Validation: Check if files exist
+	if len(l.Files) == 0 {
+		return nil, fmt.Errorf("no file provided")
+	}
+	
+	// Validation: Check if filename is provided
+	if l.FileName == "" {
+		return nil, fmt.Errorf("filename is required")
+	}
+	
 	reader := l.Files[0]
 
-	err = l.svcCtx.FileStorage.UploadFile("测试.txt", reader)
-	return nil, err
+	// Fix: Use the actual filename instead of hardcoded one
+	err = l.svcCtx.FileStorage.UploadFile(l.FileName, reader)
+	if err != nil {
+		return nil, fmt.Errorf("failed to upload file: %w", err)
+	}
+	
+	// Return success response
+	return &types.NoteUploadResponse{
+		Base: types.Base{
+			Code: 200,
+			Msg:  "success",
+		},
+		Data: types.NoteUploadResponseData{
+			ID: 1, // This should be the actual ID from database
+		},
+	}, nil
 }
