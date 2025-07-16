@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"fmt"
 	"net/smtp"
+	"os"
 	"regexp"
 
 	"github.com/sirupsen/logrus"
@@ -12,14 +14,25 @@ func SendEmail(to, subject, body string) error {
 	smtpHost := "smtp.qq.com"
 	smtpPort := "587"
 	// 邮件发送者地址
-	from := "wangzheng4j@qq.com"
+	from := os.Getenv("SMTP_FROM")
+	if from == "" {
+		from = "wangzheng4j@qq.com" // fallback, but should be set via env
+	}
+	
+	// 从环境变量获取SMTP密码
+	smtpPassword := os.Getenv("SMTP_PASSWORD")
+	if smtpPassword == "" {
+		logrus.Error("SMTP_PASSWORD environment variable not set")
+		return fmt.Errorf("SMTP credentials not configured")
+	}
+	
 	// 构建邮件正文
 	msg := "From: " + from + "\n" +
 		"To: " + to + "\n" +
 		"Subject: " + subject + "\n\n" +
 		body
 	// 设置SMTP客户端
-	auth := smtp.PlainAuth("", from, "blcrlzozdmpkihcc", smtpHost)
+	auth := smtp.PlainAuth("", from, smtpPassword, smtpHost)
 	return smtp.SendMail(smtpHost+":"+smtpPort, auth, from, []string{to}, []byte(msg))
 }
 

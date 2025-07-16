@@ -28,8 +28,10 @@ func uploadNoteHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
+		defer file.Close() // Fix: Properly close the file handle to prevent resource leak
+		
 		l.Files = append(l.Files, file)
-		l.FileName = r.FormValue("filename")
+		l.FileName = r.FormValue("fileName") // Fix: Use "fileName" instead of "filename" to match frontend
 
 		resp, err := l.UploadNote(nil)
 		if err != nil {
